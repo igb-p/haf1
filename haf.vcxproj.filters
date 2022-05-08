@@ -18,9 +18,15 @@
     <ClCompile Include="haf.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="haf1.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="2.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

@@ -140,8 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="haf.cpp" />
+    <ClCompile Include="haf1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="2.txt" />
     <Text Include="text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
