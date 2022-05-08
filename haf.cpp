@@ -177,4 +177,5 @@ int main()
         }
         a1 >> x;
     }
+    cout << 'j';
 }
