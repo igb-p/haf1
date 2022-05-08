@@ -2,25 +2,29 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <vector>
 using namespace std;
 struct Uzel
 {
-    string key; int p=0;
-    Uzel *left=NULL,*right=NULL,*next=NULL;
+    string key; int p = 0;
+    Uzel* left = NULL, * right = NULL, * next = NULL;
 
 };
 struct Tree
 {
-    Uzel *first=NULL, *last=NULL; 
+    Uzel* first = NULL, * last = NULL;
 };
 
 
-void addbyaski(int* mas, Tree* b, int &n) 
+void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
 {
+
     for (int i = 0; i < 256; i++) {
         if (mas[i] != 0) {
-            Uzel* list = new Uzel; 
-            list->key=(char) i;
+            vector<bool> pust;
+            mp.insert(pair<char, vector<bool>>((char)i, pust));
+            Uzel* list = new Uzel;
+            list->key = (char)i;
             list->p = mas[i];
             list->right = NULL;
             list->left = NULL;
@@ -28,50 +32,108 @@ void addbyaski(int* mas, Tree* b, int &n)
             {
                 b->first = list;
                 b->last = list;
-                n++;
             }
             else
             {
                 b->last->next = list;
                 b->last = list;
-                n++;
             }
+            n++;
+
         }
     }
 }
-
-void sort(Tree* b, int &n)
+void outputlevel(Tree* b)
 {
-    int f,i,j,p1;
-    string key1;
-    Uzel* i1, *j1;
-    for (i = 0,f=1,i1=b->first;i<n&&f;i++,i1->next)
-    for (j = 0,f = 0,j1=b->first;j < n - 1 - i;j++,j1->next) {
-        if (j1->p > i1->p) {
-            p1 = j1->p; j1->p = i1->p; i1->p = p1;
-            key1= j1->key; j1->key = i1->key; i1->key = key1;
-            f = 1;
-        }
+    for (Uzel* i = b->first; i != NULL; i = i->next)
+    {
+        cout << i->key << ':' << i->p << ' ';
     }
-    Uzel* nov = new Uzel; 
-    nov->p = b->first->p + b->first->next->p;
-    nov->key = b->first->key+b->first->next->key;
-    nov->left = b->first; nov->right = b->first->next;
-    b->first = nov; b->first->next = nov->right;
+}
+
+void swap(Tree* t, Uzel* a, Uzel* b) {
+    Uzel* f;
+    if (a != t->first) {
+        for (f = t->first; f->next != a; f = f->next);
+        f->next = b;
+    }
+    a->next = b->next;
+    if (b == t->last) {
+        t->last = a;
+    }
+    if (a == t->first) t->first = b;
+    b->next = a;
+}
+
+void sort(Tree* b, int& n)
+{
+    int i, j, p1, f;
+    string key1;
+    Uzel* i1, * j1;
+    for (i = 0, f = 1; i < n - 1; i++) {
+        for (j = 1, f = 0, j1 = b->first; j <= n - 1 - i; j++, j1 = j1->next) {
+            Uzel* j2 = j1->next;
+            if (j1->p > j1->next->p) {
+                swap(b, j1, j1->next);
+                j1 = j2; f = 1;
+            }
+
+        }
+
+    }
+    outputlevel(b);
+    cout << endl;
     n--;
 }
 
-void outputlevel(Tree* b) 
+void find(Tree* b, int& n)
 {
-    for (Uzel* i = b->first; i != b->last; i=i->next)
+    Uzel* nov = new Uzel;
+    nov->p = b->first->p + b->first->next->p;
+    nov->key = b->first->key + b->first->next->key;
+    nov->left = b->first; nov->right = b->first->next;
+    Uzel* it;
+
+    for (it = b->first->next; it != b->last && it->next->p < nov->p; it = it->next);
+    if (it != b->last) nov->next = it->next; it->next = nov;
+    if (it == b->last) b->last = nov;
+    if (b->first->next != b->last) {
+        b->first = b->first->next->next;
+    }
+    else
+        b->first = nov;
+    outputlevel(b); cout << endl;
+    n--;
+}
+
+
+void dapmap(map<char, vector<bool>>& mp, Uzel* b, char k)
+{
+    Uzel* t = b;
+    if (t->right || t->left)
     {
-        cout << i->key << ':' << i->p<<' ';
+
+        if (t->left && t->left->key.find(k) != -1)
+        {
+            mp[k].push_back(0);
+            t = t->left;
+
+        }
+        if (t->right && t->right->key.find(k) != -1)
+        {
+            mp[k].push_back(1);
+            t = t->right;
+
+        }
+        dapmap(mp, t, k);
+        cout << endl;
     }
 }
 
 int main()
 {
     int aski[256]; char x;
+    map<char, vector<bool>> babamapa;
     for (int i = 0; i < 256; i++) aski[i] = 0;
     ifstream a("text.txt");
     if (!a) { cout << "Ошибка открытия файла"; return 0; };
@@ -80,12 +142,40 @@ int main()
         aski[(int)x]++; a >> x;
     }
     for (int i = 0; i < 256; i++) cout << aski[i] << ' ';
-    a.close(); 
+    a.close();
     Tree* willbe = new Tree;
     int n = 0;
-    addbyaski(aski, willbe,n);
+    addbyaski(aski, willbe, n, babamapa);
+    sort(willbe, n);
+    while (n > 0)
+    {
+        find(willbe, n);
+    }
     outputlevel(willbe);
-    while(n>1)
-    sort(willbe,n);
-    outputlevel(willbe);
+    map<char, vector<bool>>::iterator it;
+    for (it = babamapa.begin(); it != babamapa.end(); it++)
+    {
+        dapmap(babamapa, willbe->first, it->first);
+        cout << it->first << '-';
+        for (int i = 0; i < babamapa[it->first].size(); i++)
+            cout << babamapa[it->first][i];
+        cout << endl;
+    }
+    ifstream a1("text.txt"); ofstream b("2.txt");
+    char sim = 0; int size = 8;
+    a1 >> x; it = babamapa.begin();
+    while (a1) {
+        it = babamapa.find(x);
+        for (int i = 0; i < babamapa[it->first].size(); i++)
+        {
+            cout << babamapa[it->first][i];
+            sim |= babamapa[it->first][i] << babamapa[it->first].size();
+            size--;
+            if (size == 0) {
+                cout << '-' << int(sim) << endl; size = 8; b << sim;
+                sim = 0;
+            }
+        }
+        a1 >> x;
+    }
 }
