@@ -18,7 +18,8 @@ struct Tree
 
 void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
 {
-
+    ofstream a1("D:/chst.txt");
+    a1 << ' ';
     for (int i = 0; i < 256; i++) {
         if (mas[i] != 0) {
             vector<bool> pust;
@@ -26,13 +27,14 @@ void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
             Uzel* list = new Uzel;
             list->key = (char)i;
             list->p = mas[i];
+            a1 << char(i); a1 << mas[i];
             list->right = NULL;
             list->left = NULL;
             if (b->first == NULL)
             {
                 b->first = list;
                 b->last = list;
-            }
+            } 
             else
             {
                 b->last->next = list;
@@ -135,11 +137,11 @@ int main()
     int aski[256]; char x;
     map<char, vector<bool>> babamapa;
     for (int i = 0; i < 256; i++) aski[i] = 0;
-    ifstream a("text.txt");
+    ifstream a("D:/text.txt");
     if (!a) { cout << "Ошибка открытия файла"; return 0; };
     a >> x;
     while (a) {
-        aski[(int)x]++; a >> x;
+        aski[(int)x]++; a.get(x);
     }
     for (int i = 0; i < 256; i++) cout << aski[i] << ' ';
     a.close();
@@ -161,21 +163,29 @@ int main()
             cout << babamapa[it->first][i];
         cout << endl;
     }
-    ifstream a1("text.txt"); ofstream b("2.txt");
-    char sim = 0; int size = 8;
-    a1 >> x; it = babamapa.begin();
-    while (a1) {
+    a.open("D:/text.txt"); ofstream b("D:/2.txt"); fstream b1("D:/chst.txt");
+    char sim = 0; int size = 7;
+    a.get(x); it = babamapa.begin();
+    n = 0;
+    while (a) {
         it = babamapa.find(x);
         for (int i = 0; i < babamapa[it->first].size(); i++)
         {
             cout << babamapa[it->first][i];
-            sim |= babamapa[it->first][i] << babamapa[it->first].size();
+            sim |= babamapa[it->first][i] << size;
             size--;
-            if (size == 0) {
-                cout << '-' << int(sim) << endl; size = 8; b << sim;
-                sim = 0;
+            if (size < 0) {
+                cout << '-' << int(sim) << endl; size = 7; b << sim;
+                sim = 0; n++;
             }
         }
-        a1 >> x;
+        a.get(x);
     }
+    
+    b << sim; 
+    if (size == 7) size = -1;
+    b1 << size+1;
+    cout << endl;
+    cout << n << endl;
+    _fcloseall();
 }

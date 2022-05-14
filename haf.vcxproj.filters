@@ -23,5 +23,14 @@
     <Text Include="text.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="2.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="D:\text.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="D:\chst.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
