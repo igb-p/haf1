@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{17a574c2-0739-43e2-9594-34a28f676bae}</ProjectGuid>
-    <RootNamespace>haf</RootNamespace>
+    <ProjectGuid>{f5196f15-331b-4f4d-bdbb-e0232a851bef}</ProjectGuid>
+    <RootNamespace>decoder</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,13 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="haf.cpp" />
+    <ClCompile Include="decoder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="2.txt" />
-    <Text Include="D:\chst.txt" />
-    <Text Include="D:\text.txt" />
-    <Text Include="text.txt" />
+    <Text Include="3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
