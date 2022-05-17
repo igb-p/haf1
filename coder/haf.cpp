@@ -27,7 +27,7 @@ void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
             Uzel* list = new Uzel;
             list->key = (char)i;
             list->p = mas[i];
-            a1 << char(i); a1 << mas[i];
+            a1 << ' '; a1 << char(i); a1 << mas[i]; 
             list->right = NULL;
             list->left = NULL;
             if (b->first == NULL)
@@ -44,6 +44,7 @@ void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
 
         }
     }
+    a1.close();
 }
 void outputlevel(Tree* b)
 {
@@ -83,8 +84,8 @@ void sort(Tree* b, int& n)
         }
 
     }
-    outputlevel(b);
-    cout << endl;
+    /*outputlevel(b);
+    cout << endl;*/
     n--;
 }
 
@@ -104,7 +105,7 @@ void find(Tree* b, int& n)
     }
     else
         b->first = nov;
-    outputlevel(b); cout << endl;
+    //outputlevel(b); cout << endl;
     n--;
 }
 
@@ -128,7 +129,7 @@ void dapmap(map<char, vector<bool>>& mp, Uzel* b, char k)
 
         }
         dapmap(mp, t, k);
-        cout << endl;
+        //cout << endl;
     }
 }
 
@@ -143,7 +144,7 @@ int main()
     while (a) {
         aski[(int)x]++; a.get(x);
     }
-    for (int i = 0; i < 256; i++) cout << aski[i] << ' ';
+    //for (int i = 0; i < 256; i++) cout << aski[i] << ' ';
     a.close();
     Tree* willbe = new Tree;
     int n = 0;
@@ -153,15 +154,15 @@ int main()
     {
         find(willbe, n);
     }
-    outputlevel(willbe);
+    //outputlevel(willbe);
     map<char, vector<bool>>::iterator it;
     for (it = babamapa.begin(); it != babamapa.end(); it++)
     {
         dapmap(babamapa, willbe->first, it->first);
-        cout << it->first << '-';
-        for (int i = 0; i < babamapa[it->first].size(); i++)
+        //cout << it->first << '-';
+        /*for (int i = 0; i < babamapa[it->first].size(); i++)
             cout << babamapa[it->first][i];
-        cout << endl;
+        cout << endl;*/
     }
     a.open("D:/text.txt"); ofstream b("D:/2.txt"); fstream b1("D:/chst.txt");
     char sim = 0; int size = 7;
@@ -171,11 +172,12 @@ int main()
         it = babamapa.find(x);
         for (int i = 0; i < babamapa[it->first].size(); i++)
         {
-            cout << babamapa[it->first][i];
+            //cout << babamapa[it->first][i];
             sim |= babamapa[it->first][i] << size;
             size--;
             if (size < 0) {
-                cout << '-' << int(sim) << endl; size = 7; b << sim;
+                //cout << '-' << int(sim) << endl;
+                size = 7; b << sim;
                 sim = 0; n++;
             }
         }
@@ -185,8 +187,8 @@ int main()
     b << sim; 
     if (size == 7) size = -1;
     b1 << size+1;
-    cout << endl;
-    cout << n << endl;
+    /*cout << endl;
+    cout << n << endl;*/
     _fcloseall();
     
 }

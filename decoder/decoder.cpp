@@ -17,12 +17,14 @@ void addbyfile(Tree* b, int& n, int& h, float& nu)
 {
     ifstream a1("D:/chst.txt");
     a1.seekg(0, ios::beg);
-    char x;
+    char x, z;
     int y;
     a1 >> h;
-    cout << h;
-    a1.get(x); cout << x << endl;
+    //cout << h;
+    a1.get(z);
+    a1.get(x); //cout << x << endl;
     a1 >> y;
+    
     nu = 0; nu += y;
     while (a1)
     {
@@ -43,11 +45,14 @@ void addbyfile(Tree* b, int& n, int& h, float& nu)
             b->last->next = list;
             b->last = list;
         }
-        n++;
-        a1.get(x); cout << x << endl;
-        a1 >> y; nu += y; cout << y << endl;
+        n++; 
+        a1.get(z);
+        if (a1)
+        {
+            a1.get(x); //cout << x << endl;
+            a1 >> y; nu += y; //cout << y << endl;
+        }
     }
-    a1.close();
 }
 
 void outputlevel(Tree* b)
@@ -88,7 +93,7 @@ void sort(Tree* b, int& n)
         }
 
     }
-    outputlevel(b);
+    //outputlevel(b);
     cout << endl;
     n--;
 }
@@ -109,10 +114,62 @@ void find(Tree* b, int& n)
     }
     else
         b->first = nov;
-    outputlevel(b); cout << endl;
+    //outputlevel(b); cout << endl;
     n--;
 }
 
+void end(Tree* b, int t, float& num, int h)
+{
+    ifstream a1("D:/2.txt", ios::binary);
+    fstream b1("3.txt");
+    int fl = 1;
+    char a, d; Uzel* r = b->first;
+    //cout << endl << h << endl;
+    a1.get(a); //cout << a << endl;
+    while (a1)
+    {
+        num++;
+        if (!(a1.get(d))) fl = 0;
+        for (int i = 7; i >= 0; i--)
+        {
+            if (((int)a != 13 || (int)d != 10) && (fl == 1 || i >= h))
+            {
+                if (a & (1 << i)) {
+                    r = r->right; /*cout << '1';*/
+                }
+                else {
+                    r = r->left; /*cout << '0';*/
+                }
+                if (r->left == NULL) { /*cout << ' ' << r->key << endl;*/ b1 << r->key; r = b->first; }
+
+            }
+        }
+        a = d; //cout << (int)d << endl;
+
+    }
+
+}
+
+void srv()
+{
+    fstream a("3.txt"); fstream b("D:/text.txt");
+    char x, y;
+    while (a)
+    {
+        a >> x; b >> y;
+        if (x != y) { cout << "Не совпадают" << endl; exit(0); }
+    }
+    cout << "Совпадают" << endl;
+}
+
+void sj(float num, float nu)
+{
+    float w;
+    w = nu / num;
+    cout << fixed;
+    cout.precision(2);
+    cout << endl << "Должно сжимать в " << w << " раз/а" << endl;
+}
 
 int main()
 {
@@ -120,15 +177,18 @@ int main()
     Tree* b = new Tree;
     int n = 0, h; float nu;
     addbyfile(b, n, h, nu);
-    cout << b->first->p << endl;
-    outputlevel(b);
-    cout << endl;
+    //cout << b->first->p << endl;
+    //outputlevel(b);
+    //cout << endl;
     int t = n * 2 + 2;
     sort(b, n);
     while (n > 0)
     {
         find(b, n);
     }
-    outputlevel(b);
+    //outputlevel(b);
     float num = 0;
-    
+    end(b, t, num, h);
+    sj(num, nu);
+    srv();
+}
