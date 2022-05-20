@@ -26,6 +26,8 @@
     <Text Include="D:\chst.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="D:\2.txt" />
+    <Text Include="D:\2.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>

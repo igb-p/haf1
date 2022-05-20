@@ -19,10 +19,10 @@ struct Tree
 void addbyaski(int* mas, Tree* b, int& n, map<char, vector<bool>>& mp)
 {
     ofstream a1("D:/chst.txt");
+    vector<bool> pust;
     a1 << ' ';
     for (int i = 0; i < 256; i++) {
         if (mas[i] != 0) {
-            vector<bool> pust;
             mp.insert(pair<char, vector<bool>>((char)i, pust));
             Uzel* list = new Uzel;
             list->key = (char)i;
@@ -149,9 +149,10 @@ int main()
     Tree* willbe = new Tree;
     int n = 0;
     addbyaski(aski, willbe, n, babamapa);
+    //outputlevel(willbe);
     sort(willbe, n);
     while (n > 0)
-    {
+    { 
         find(willbe, n);
     }
     //outputlevel(willbe);

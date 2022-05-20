@@ -118,7 +118,7 @@ void find(Tree* b, int& n)
     n--;
 }
 
-void end(Tree* b, int t, float& num, int h)
+void end(Tree* b, float& num, int h)
 {
     ifstream a1("D:/2.txt", ios::binary);
     fstream b1("3.txt");
@@ -180,7 +180,6 @@ int main()
     //cout << b->first->p << endl;
     //outputlevel(b);
     //cout << endl;
-    int t = n * 2 + 2;
     sort(b, n);
     while (n > 0)
     {
@@ -188,7 +187,7 @@ int main()
     }
     //outputlevel(b);
     float num = 0;
-    end(b, t, num, h);
+    end(b, num, h);
     sj(num, nu);
     srv();
 }
